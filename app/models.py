@@ -16,10 +16,17 @@ class User(db.Model):
         return False
 
     def get_id(self):
-        try:
-            return unicode(self.id)  # python 2
-        except NameError:
-            return str(self.id)  # python 3
+        return unicode(self.id)  # python 2
 
     def __repr__(self):
         return '<User %r>' % self.nickname
+
+
+class UserSettings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.relationship('User', lazy='dynamic')
+
+    cal_delimiter = db.Column(db.String(10))
+    sum_task_delimiter = db.Column(db.String(10))
+    csv_delimiter = db.Column(db.String(10))
+    csv_divide_weeks = db.Column(db.Integer)
