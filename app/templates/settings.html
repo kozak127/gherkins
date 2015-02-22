@@ -1,0 +1,69 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Edit Settings</h1>
+    {% include 'flash.html' %}
+    <div class="well">
+        <form class="form-horizontal" action="" method="post" name="edit">
+            {{ form.hidden_tag() }}
+            <div class="control-group{% if form.cal_delimiter.errors %} error{% endif %}">
+                <label class="control-label" for="cal_delimiter">Delimiter between project name and task summary</label>
+                <div class="controls">
+                    {{ form.cal_delimiter(maxlength=10, class="span4") }}
+                    {% for error in form.cal_delimiter.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.cal_name.errors %} error{% endif %}">
+                <label class="control-label" for="cal_name">Name of calendar in Google Calendar</label>
+                <div class="controls">
+                    {{ form.cal_name(maxlength=250, class="span4") }}
+                    {% for error in form.cal_name.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.sum_task_delimiter.errors %} error{% endif %}">
+                <label class="control-label" for="sum_task_delimiter">Delimiter between task summaries</label>
+                <div class="controls">
+                    {{ form.sum_task_delimiter(maxlength=10, class="span4") }}
+                    {% for error in form.sum_task_delimiter.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.csv_delimiter.errors %} error{% endif %}">
+                <label class="control-label" for="csv_delimiter">CSV delimiter:</label>
+                <div class="controls">
+                    {{ form.csv_delimiter(maxlength=1, class="span4") }}
+                    {% for error in form.csv_delimiter.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+
+            <div class="control-group{% if form.csv_divide_weeks.errors %} error{% endif %}">
+                <label class="control-label" for="csv_divide_weeks">Place blank line between week in CSV</label>
+                <div class="controls">
+                    {{ form.csv_divide_weeks(class="span4") }}
+                    {% for error in form.csv_divide_weeks.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <input class="btn btn-primary" type="submit" value="Save Changes">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

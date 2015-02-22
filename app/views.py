@@ -1,9 +1,10 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, \
     login_required
+from flask.ext.babel import gettext
 from app import app, db, lm, oid
-from app.forms import LoginForm
-from app.models import User
+from app.forms import LoginForm, SettingsForm
+from app.models import User, Settings
 
 
 @lm.user_loader
@@ -15,6 +16,15 @@ def load_user(id):
 def before_request():
     g.user = current_user
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return render_template('500.html'), 500
 
 @app.route('/')
 @app.route('/index')
@@ -24,7 +34,6 @@ def index():
     return render_template('index.html',
                            title='Home',
                            user=user)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 @oid.loginhandler
@@ -66,3 +75,20 @@ def after_login(resp):
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    form = SettingsForm()
+    if form.validate_on_submit():
+        settings_instance = g.user.settings.first()
+        settings_instance.get_values_from_form(form)
+        settings_instance.user = g.user
+        db.session.add(settings_instance)
+        db.session.commit()
+        flash('Settings saved!')
+        return redirect(url_for('index'))
+    settings_instance = g.user.settings.first()
+    if settings_instance is not None:
+        form.get_values_from_model(settings_instance)
+    return render_template('settings.html', form=form)
