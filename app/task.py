@@ -10,6 +10,9 @@ class Task():
         self.date = date
         self.duration = duration
 
+    def to_plain_list(self):
+        return [str(self.date), str(self.project), str(self.summary)]
+
 
 class TaskManager():
 
