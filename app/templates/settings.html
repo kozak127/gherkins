@@ -17,11 +17,21 @@
                 </div>
             </div>
 
-            <div class="control-group{% if form.cal_name.errors %} error{% endif %}">
-                <label class="control-label" for="cal_name">Name of calendar in Google Calendar</label>
+            <div class="control-group{% if form.cal_url.errors %} error{% endif %}">
+                <label class="control-label" for="cal_url">URL to ical file in Google Calendar</label>
                 <div class="controls">
-                    {{ form.cal_name(maxlength=250, class="span4") }}
-                    {% for error in form.cal_name.errors %}
+                    {{ form.cal_url(maxlength=250, class="span4") }}
+                    {% for error in form.cal_url.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.cal_groups.errors %} error{% endif %}">
+                <label class="control-label" for="cal_groups">Groups and projects in Google Calendar</label>
+                <div class="controls">
+                    {{ form.cal_groups(maxlength=250, class="span4") }}
+                    {% for error in form.cal_groups.errors %}
                         <span class="help-inline">[{{ error }}]</span><br>
                     {% endfor %}
                 </div>
