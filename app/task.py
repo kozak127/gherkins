@@ -13,12 +13,14 @@ class Task():
     def to_plain_list(self):
         return [str(self.date), str(self.project), str(self.summary)]
 
+    def get_duration(self):
+        return self.duration.seconds // 60
+
 
 class TaskManager():
 
-    def __init__(self, path, url, cal_delimiter):
-        self.reader = CalFileReader(path, url, cal_delimiter)
-        self.reader.download_file()
+    def __init__(self, url, cal_delimiter):
+        self.reader = CalFileReader(url, cal_delimiter)
         self.tasks = self.reader.read_tasks()
 
     def get_tasks_for_group(self, group, date_start, date_end):
@@ -26,8 +28,7 @@ class TaskManager():
         projects = []
 
         # for group in groups:
-        projects += group.split(';')
-
+        projects += group.split(', ')
         for task in self.tasks:
             if date_start <= task.date <= date_end and task.project in projects:
                 to_return.append(task)
@@ -38,7 +39,7 @@ class TaskManager():
         projects = []
 
         for group in groups:
-            projects += group.split(';')
+            projects += group.split(', ')
 
         for task in self.tasks:
             if date_start <= task.date <= date_end and not (task.project in projects):
@@ -52,17 +53,14 @@ class TaskManager():
 
 class CalFileReader:
 
-    def __init__(self, path, url, cal_delimiter):
-        self.path = path
+    def __init__(self, url, cal_delimiter):
         self.url = url
         self.cal_delimiter = cal_delimiter
-
-    def download_file(self):
-        urllib.urlretrieve(self.url, self.path)
+        self.ical_file = urllib.urlopen(self.url)
 
     def read_tasks(self):
         tasks = []
-        calendar_file = open(self.path, 'rb')
+        calendar_file = self.ical_file
         parsed_calendar = icalendar.Calendar.from_ical(calendar_file.read())
 
         for component in parsed_calendar.walk('vevent'):
@@ -75,8 +73,16 @@ class CalFileReader:
             else:
                 summary = ""
 
-            duration = (dtend - dtstart) // 60
-            tasks.append(Task(project, summary, dtstart, duration))
+            duration = (dtend - dtstart)
+
+            # icalendar lib returns datetime.date and datetime.datetime objects at random choice. Standardisation
+            date = 0
+            try:
+                date = dtstart.date()
+            except AttributeError:
+                date = dtstart
+
+            tasks.append(Task(project, summary, date, duration))
 
         calendar_file.close()
         return tasks

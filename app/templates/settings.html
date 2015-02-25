@@ -47,28 +47,6 @@
                 </div>
             </div>
 
-            <div class="control-group{% if form.csv_delimiter.errors %} error{% endif %}">
-                <label class="control-label" for="csv_delimiter">CSV delimiter:</label>
-                <div class="controls">
-                    {{ form.csv_delimiter(maxlength=1, class="span4") }}
-                    {% for error in form.csv_delimiter.errors %}
-                        <span class="help-inline">[{{ error }}]</span><br>
-                    {% endfor %}
-                </div>
-            </div>
-
-
-
-            <div class="control-group{% if form.csv_divide_weeks.errors %} error{% endif %}">
-                <label class="control-label" for="csv_divide_weeks">Place blank line between week in CSV</label>
-                <div class="controls">
-                    {{ form.csv_divide_weeks(class="span4") }}
-                    {% for error in form.csv_divide_weeks.errors %}
-                        <span class="help-inline">[{{ error }}]</span><br>
-                    {% endfor %}
-                </div>
-            </div>
-
             <div class="control-group">
                 <div class="controls">
                     <input class="btn btn-primary" type="submit" value="Save Changes">
