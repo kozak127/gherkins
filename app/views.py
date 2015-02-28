@@ -94,6 +94,7 @@ def settings():
 def generate_csv_daily():
     settings_instance = g.user.settings.first()
     if settings_instance is None:
+        flash("You don't have any saved settings")
         return redirect(url_for('settings'))
 
     url = settings_instance.cal_url
@@ -115,6 +116,7 @@ def generate_csv_daily():
 def generate_csv_weekly():
     settings_instance = g.user.settings.first()
     if settings_instance is None:
+        flash("You don't have any saved settings")
         return redirect(url_for('settings'))
 
     url = settings_instance.cal_url
@@ -136,6 +138,7 @@ def generate_csv_weekly():
 def generate_csv_monthly():
     settings_instance = g.user.settings.first()
     if settings_instance is None:
+        flash("You don't have any saved settings")
         return redirect(url_for('settings'))
 
     url = settings_instance.cal_url
