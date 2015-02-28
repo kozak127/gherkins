@@ -3,11 +3,18 @@
 
 {% block content %}
     {% include 'flash.html' %}
-    <h1>Hi, {{ user.nickname }}!</h1>
+    {% if current_user.is_authenticated() %}
+        <h1>Hi, {{ user.nickname }}!</h1>
 
-<div class="controls">
-  <a class="btn" href="{{ url_for('generate_csv_daily') }}">Generate daily report</a>
-  <a class="btn" href="{{ url_for('generate_csv_weekly') }}">Generate weekly report</a>
-  <a class="btn" href="{{ url_for('generate_csv_monthly') }}">Generate monthly report</a>
-</div>
+        <div class="controls">
+          <a class="btn" href="{{ url_for('generate_csv_daily') }}">Generate daily report</a>
+          <a class="btn" href="{{ url_for('generate_csv_weekly') }}">Generate weekly report</a>
+          <a class="btn" href="{{ url_for('generate_csv_monthly') }}">Generate monthly report</a>
+        </div>
+
+    {% else %}
+        <h2>I don't know you!</h2>
+        <p><a href="{{ url_for('oauth_authorize', provider='facebook') }}">Login with Facebook</a></p>
+    {% endif %}
+
 {% endblock %}
