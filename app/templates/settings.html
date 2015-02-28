@@ -15,26 +15,34 @@
                     {% for error in form.cal_delimiter.errors %}
                         <span class="help-inline">[{{ error }}]</span><br>
                     {% endfor %}
+                    <br />
+                    <label>ImportantProject<b> - </b>Repairing coffee machine</label>
                 </div>
             </div>
 
             <div class="control-group{% if form.cal_url.errors %} error{% endif %}">
-                <label class="control-label" for="cal_url">URL to ical file in Google Calendar</label>
+                <label class="control-label" for="cal_url">URL to ical file</label>
                 <div class="controls">
                     {{ form.cal_url(maxlength=250, class="span4") }}
                     {% for error in form.cal_url.errors %}
                         <span class="help-inline">[{{ error }}]</span><br>
                     {% endfor %}
+                    <br />
+                    <label>https://www.google.com/calendar/ical/its-a-secret/basic.ics</label>
+
                 </div>
+
             </div>
 
             <div class="control-group{% if form.cal_groups.errors %} error{% endif %}">
-                <label class="control-label" for="cal_groups">Groups and projects in Google Calendar</label>
+                <label class="control-label" for="cal_groups">Groups and projects in ical file, groups separated by '#' sign, projects separated by ', '</label>
                 <div class="controls">
                     {{ form.cal_groups(maxlength=250, class="span4") }}
                     {% for error in form.cal_groups.errors %}
                         <span class="help-inline">[{{ error }}]</span><br>
                     {% endfor %}
+                    <br />
+                    <label>ImportantProject<b>#</b>NormalProject, SecondNormalProject</label>
                 </div>
             </div>
 
@@ -45,6 +53,8 @@
                     {% for error in form.sum_task_delimiter.errors %}
                         <span class="help-inline">[{{ error }}]</span><br>
                     {% endfor %}
+                    <br />
+                    <label>Repairing coffee machine<b>, </b>cleaning tables<b>, </b>destroying computer</label>
                 </div>
             </div>
 
