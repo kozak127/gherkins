@@ -80,7 +80,7 @@ def settings():
         if settings_instance is None:
             settings_instance = Settings()
         settings_instance.set_values_from_form(form)
-        settings_instance.user = g.user
+        settings_instance.User = g.user
         db.session.add(settings_instance)
         db.session.commit()
         flash('Settings saved!')
