@@ -10,6 +10,7 @@ SQLAlchemy==0.9.8
 WTForms==2.0.2
 Werkzeug==0.10.1
 argparse==1.2.1
+icalendar==3.8.4
 itsdangerous==0.24
 mysql==0.0.1
 python-openid==2.2.5
