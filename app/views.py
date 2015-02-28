@@ -103,7 +103,12 @@ def generate_csv_daily():
     sum_task_delimiter = settings_instance.sum_task_delimiter
     groups = settings_instance.get_list_of_groups()
 
-    task_manager = TaskManager(url, cal_delimiter)
+    try:
+        task_manager = TaskManager(url, cal_delimiter)
+    except ValueError:
+        flash("URL to ical file is invalid")
+        return redirect(url_for('settings'))
+
     date_start = datetime.strptime('01022015', "%d%m%Y").date()
     date_end = datetime.strptime('28022015', "%d%m%Y").date()
     report = DailyReport(groups, task_manager, sum_task_delimiter, date_start, date_end)
@@ -125,7 +130,12 @@ def generate_csv_weekly():
     sum_task_delimiter = settings_instance.sum_task_delimiter
     groups = settings_instance.get_list_of_groups()
 
-    task_manager = TaskManager(url, cal_delimiter)
+    try:
+        task_manager = TaskManager(url, cal_delimiter)
+    except ValueError:
+        flash("URL to ical file is invalid")
+        return redirect(url_for('settings'))
+
     date_start = datetime.strptime('01022015', "%d%m%Y").date()
     date_end = datetime.strptime('28022015', "%d%m%Y").date()
     report = WeeklyReport(groups, task_manager, sum_task_delimiter, date_start, date_end)
@@ -147,7 +157,12 @@ def generate_csv_monthly():
     sum_task_delimiter = settings_instance.sum_task_delimiter
     groups = settings_instance.get_list_of_groups()
 
-    task_manager = TaskManager(url, cal_delimiter)
+    try:
+        task_manager = TaskManager(url, cal_delimiter)
+    except ValueError:
+        flash("URL to ical file is invalid")
+        return redirect(url_for('settings'))
+
     date_start = datetime.strptime('01022015', "%d%m%Y").date()
     date_end = datetime.strptime('28022015', "%d%m%Y").date()
     report = MonthlyReport(groups, task_manager, sum_task_delimiter, date_start, date_end)
