@@ -109,8 +109,8 @@ def generate_csv_daily():
         flash("URL to ical file is invalid")
         return redirect(url_for('settings'))
 
-    date_start = datetime.strptime('01022015', "%d%m%Y").date()
-    date_end = datetime.strptime('28022015', "%d%m%Y").date()
+    date_start = datetime.strptime(settings_instance.date_start, "%Y%m%d").date()
+    date_end = datetime.strptime(settings_instance.date_end, "%Y%m%d").date()
     report = DailyReport(groups, task_manager, sum_task_delimiter, date_start, date_end)
     response = make_response(report.to_csv_string())
     response.headers["Content-Disposition"] = "attachment; filename=daily.csv"
