@@ -58,6 +58,26 @@
                 </div>
             </div>
 
+            <div class="control-group{% if form.date_start.errors %} error{% endif %}">
+                <label class="control-label" for="date_start">Date from:</label>
+                <div class="controls">
+                    {{ form.date_start(class="datepicker") }}
+                    {% for error in form.date_start.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.date_end.errors %} error{% endif %}">
+                <label class="control-label" for="date_end">Date to:</label>
+                <div class="controls">
+                    {{ form.date_end(class="datepicker") }}
+                    {% for error in form.date_end.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
             <div class="control-group">
                 <div class="controls">
                     <input class="btn btn-primary" type="submit" value="Save Changes">

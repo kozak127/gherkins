@@ -79,14 +79,14 @@ def settings():
     if form.validate_on_submit():
         if settings_instance is None:
             settings_instance = Settings()
-        settings_instance.set_values_from_form(form)
+        settings_instance.set_values_from_settings_form(form)
         settings_instance.User = g.user
         db.session.add(settings_instance)
         db.session.commit()
         flash('Settings saved!')
         return redirect(url_for('index'))
     if settings_instance is not None:
-        form.get_values_from_model(settings_instance)
+        form.set_values_from_settings_model(settings_instance)
     return render_template('settings.html', form=form)
 
 
