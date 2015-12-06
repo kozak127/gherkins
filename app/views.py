@@ -1,11 +1,8 @@
-from datetime import datetime
 from app.oauth import OAuthSignIn
-from app.report import DailyReport, WeeklyReport, MonthlyReport
-from app.task import TaskManager
-from flask import render_template, flash, redirect, session, url_for, request, g, make_response
+from flask import render_template, flash, redirect, url_for, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
-from app.forms import LoginForm, SettingsForm
+from app.forms import SettingsForm
 from app.models import User, Settings
 
 
@@ -88,84 +85,3 @@ def settings():
     if settings_instance is not None:
         form.set_values_from_settings_model(settings_instance)
     return render_template('settings.html', form=form)
-
-
-@app.route('/generate/csv/daily')
-@login_required
-def generate_csv_daily():
-    settings_instance = g.user.settings.first()
-    if settings_instance is None:
-        flash("You don't have any saved settings")
-        return redirect(url_for('settings'))
-
-    url = settings_instance.cal_url
-    cal_delimiter = settings_instance.cal_delimiter
-    sum_task_delimiter = settings_instance.sum_task_delimiter
-    groups = settings_instance.get_list_of_groups()
-
-    try:
-        task_manager = TaskManager(url, cal_delimiter)
-    except ValueError:
-        flash("URL to ical file is invalid")
-        return redirect(url_for('settings'))
-
-    date_start = settings_instance.date_start
-    date_end = settings_instance.date_end
-    report = DailyReport(groups, task_manager, sum_task_delimiter, date_start, date_end)
-    response = make_response(report.to_csv_string())
-    response.headers["Content-Disposition"] = "attachment; filename=daily.csv"
-    return response
-
-
-@app.route('/generate/csv/weekly')
-@login_required
-def generate_csv_weekly():
-    settings_instance = g.user.settings.first()
-    if settings_instance is None:
-        flash("You don't have any saved settings")
-        return redirect(url_for('settings'))
-
-    url = settings_instance.cal_url
-    cal_delimiter = settings_instance.cal_delimiter
-    sum_task_delimiter = settings_instance.sum_task_delimiter
-    groups = settings_instance.get_list_of_groups()
-
-    try:
-        task_manager = TaskManager(url, cal_delimiter)
-    except ValueError:
-        flash("URL to ical file is invalid")
-        return redirect(url_for('settings'))
-
-    date_start = settings_instance.date_start
-    date_end = settings_instance.date_end
-    report = WeeklyReport(groups, task_manager, sum_task_delimiter, date_start, date_end)
-    response = make_response(report.to_csv_string())
-    response.headers["Content-Disposition"] = "attachment; filename=weekly.csv"
-    return response
-
-
-@app.route('/generate/csv/monthly')
-@login_required
-def generate_csv_monthly():
-    settings_instance = g.user.settings.first()
-    if settings_instance is None:
-        flash("You don't have any saved settings")
-        return redirect(url_for('settings'))
-
-    url = settings_instance.cal_url
-    cal_delimiter = settings_instance.cal_delimiter
-    sum_task_delimiter = settings_instance.sum_task_delimiter
-    groups = settings_instance.get_list_of_groups()
-
-    try:
-        task_manager = TaskManager(url, cal_delimiter)
-    except ValueError:
-        flash("URL to ical file is invalid")
-        return redirect(url_for('settings'))
-
-    date_start = settings_instance.date_start
-    date_end = settings_instance.date_end
-    report = MonthlyReport(groups, task_manager, sum_task_delimiter, date_start, date_end)
-    response = make_response(report.to_csv_string())
-    response.headers["Content-Disposition"] = "attachment; filename=monthly.csv"
-    return response
