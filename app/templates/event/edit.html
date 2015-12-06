@@ -1,0 +1,70 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Edit event</h1>
+    {% include 'flash.html' %}
+    <div class="well">
+        <form class="form-horizontal" action="" method="post" name="edit">
+            {{ form.hidden_tag() }}
+            <div class="control-group{% if form.name.errors %} error{% endif %}">
+                <p></p>
+                <label class="control-label" for="name">Name for event</label>
+                <div class="controls">
+                    {{ form.name(minlength=10, class="span4") }}
+                    {% for error in form.name.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.description.errors %} error{% endif %}">
+                <p></p>
+                <label class="control-label" for="description">Description of event</label>
+                <div class="controls">
+                    {{ form.description(class="span4") }}
+                    {% for error in form.description.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.start_date.errors %} error{% endif %}">
+                <label class="control-label" for="start_date">Date from:</label>
+                <div class="controls">
+                    {{ form.start_date(class="datepicker") }}
+                    {% for error in form.start_date.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.end_date.errors %} error{% endif %}">
+                <label class="control-label" for="end_date">Date to:</label>
+                <div class="controls">
+                    {{ form.end_date(class="datepicker") }}
+                    {% for error in form.end_date.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group{% if form.status.errors %} error{% endif %}">
+                <p></p>
+                <label class="control-label" for="status">Status of event</label>
+                <div class="controls">
+                    {{ form.status(class="span4") }}
+                    {% for error in form.status.errors %}
+                        <span class="help-inline">[{{ error }}]</span><br>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <input class="btn btn-primary" type="submit" value="Save Changes">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

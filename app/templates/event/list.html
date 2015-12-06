@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Event list</h1>
+    {% include 'flash.html' %}
+
+    <div class="well">
+    	{% for event in events %}
+    	<p>{{ event }}</p>
+    	{% endfor %}
+    </div>
+{% endblock %}

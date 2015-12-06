@@ -7,9 +7,7 @@
         <h1>Hi, {{ user.nickname }}!</h1>
 
         <div class="controls">
-            <a class="btn" href="{{ url_for('generate_csv_daily') }}">Generate daily report</a><br />
-            <a class="btn" href="{{ url_for('generate_csv_weekly') }}">Generate weekly report</a><br />
-            <a class="btn" href="{{ url_for('generate_csv_monthly') }}">Generate monthly report</a>
+            <a class="btn" href="{{ url_for('event_list') }}">Show events</a><br />
         </div>
 
     {% else %}

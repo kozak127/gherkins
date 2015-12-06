@@ -2,8 +2,8 @@ from app.oauth import OAuthSignIn
 from flask import render_template, flash, redirect, url_for, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
-from app.forms import SettingsForm
-from app.models import User, Settings
+from app.forms import SettingsForm, EventForm
+from app.models import User, Settings, Event
 
 
 @lm.user_loader
@@ -68,7 +68,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/settings', methods=['GET', 'POST'])
+@app.route('/settings')
 @login_required
 def settings():
     form = SettingsForm()
@@ -76,12 +76,70 @@ def settings():
     if form.validate_on_submit():
         if settings_instance is None:
             settings_instance = Settings()
-        settings_instance.set_values_from_settings_form(form)
+        settings_instance.set_from_dict(form.__dict__)
         settings_instance.User = g.user
         db.session.add(settings_instance)
         db.session.commit()
-        flash('Settings saved!')
+        flash('Settings saved')
         return redirect(url_for('index'))
     if settings_instance is not None:
-        form.set_values_from_settings_model(settings_instance)
+        form.set_from_dict(settings_instance.__dict__)
     return render_template('settings.html', form=form)
+
+
+@app.route('/event')
+def events():
+    return redirect(url_for('event_list'))
+
+
+@app.route('/event/list', methods=['GET', 'POST'])
+def event_list():
+    events = Event.query.all()
+    return render_template('events/list.html', events=events)
+
+
+@app.route('/event/show/<id>')
+def event_show(id):
+    if id is not None:
+        event_instance = Event.query.filter_by(id=id, status != 'deleted').first()
+        form = set_from_dict(event_instance.__dict__)
+        return render_template('event/show.html', form=form)
+    else:
+        flash('Unable to find event')
+        return redirect(url_for('event_list'))
+
+
+@app.route('event/create')
+def event_create():
+    return event_edit(None)
+
+
+@app.route('/event/edit/<id>')
+def event_edit(id):
+    form = EventForm()
+    event_instance = Event()
+    if id is not None:
+        event_instance = Event.query.filter_by(id=id).first()
+    if form.validate_on_submit():
+        event_instance.set_from_dict(form.__dict__)
+        if id is None:
+            event_instance.creator = g.user
+        db.session.add(event_instance)
+        db.session.commit()
+        flash('Event saved')
+        return redirect(url_for('event_list'))
+    if event_instance is not None:
+        form.set_from_dict(event_instance.__dict__)
+    render_template('event/edit.html', form=form)
+
+
+@app.route('/event/delete/<id>')
+def event_delete(id):
+    if id is not None:
+        event = Event.query.filter_by(id=id).first()
+        event.status = 'deleted'
+        flash('Event deleted')
+        return redirect(url_for('event_list'))
+    else:
+        flash('Unable to find event')
+        return redirect(url_for('event_list'))
