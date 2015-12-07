@@ -17,8 +17,10 @@ class User(UserMixin, db.Model, object):
                                lazy='dynamic')
 
     def __repr__(self):
-        return '<User %r>' % self.nickname
+        return __str__
 
+    def __str__(self):
+        return '<User %r>' % self.nickname
 
 class Event(db.Model, object):
     id = db.Column(db.Integer,
@@ -44,7 +46,28 @@ class Event(db.Model, object):
                        nullable=False)  # TODO status jako enum
 
     def set_from_dict(self, dict):
-        raise NotImplementedError('Not implemented!')
+        id = dict["id"]
+        name = dict["name"]
+        description = dict["description"]
+        start_date = dict["start_date"]
+        end_date = dict["end_date"]
+        creation_date = dict["creation_date"]
+        creator_id = dict["creator_id"]
+        creator = dict["creator"]
+        status = dict["status"]
+
+    def __repr__(self):
+        __str__()
+
+    def __str__(self):
+        print id
+        print name
+        print description
+        print start_date
+        print end_date
+        print creation_date
+        print creator
+        print status
 
 
 class TicketType(db.Model, object):
@@ -64,6 +87,12 @@ class TicketType(db.Model, object):
                      nullable=False)
 
     def set_from_dict(self, dict):
+        id = dict["id"]
+        name = dict["name"]
+        description = dict["description"]
+        event_id = dict["event_id"]
+        event = dict["event"]
+        cost = dict["dict"]
         raise NotImplementedError('Not implemented!')
 
 
@@ -90,6 +119,15 @@ class Ticket(db.Model, object):
     payment_status_change = db.Column(db.Date)
 
     def set_from_dict(self, dict):
+        id = dict["id"]
+        user = dict["user"]
+        ticket_type_id = dict["ticketTypeId"]
+        ticket_type = dict["ticket_type"]
+        special_discount = dict["special_discount"]
+        creation_date = dict["creation_date"]
+        payment_status = dict["payment_status"]
+        payment_status_id = dict["payment_status_id"]
+        payment_status_change = dict["payment_status_change"]
         raise NotImplementedError('Not implemented!')
 
 
@@ -106,4 +144,5 @@ class Settings(db.Model, object):
                         db.ForeignKey('user.id'))
 
     def set_from_dict(self, dict):
+      self.id = dict
         raise NotImplementedError('Not implemented!')
