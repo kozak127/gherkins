@@ -26,10 +26,10 @@ class User(UserMixin, db.Model, object):
 class Event(db.Model, object):
     id = db.Column(db.Integer,
                    primary_key=True)
-    name = db.Column(db.String(1000),
+    name = db.Column(db.String(255),
                      nullable=False,
                      unique=True)
-    description = db.Column(db.String(5000),
+    description = db.Column(db.String(255),
                             nullable=True)
     start_date = db.Column(db.Date,
                            nullable=False)
@@ -73,9 +73,9 @@ class Event(db.Model, object):
 class TicketType(db.Model, object):
     id = db.Column(db.Integer,
                    primary_key=True)
-    name = db.Column(db.String(1000),
+    name = db.Column(db.String(255),
                      nullable=False)
-    description = db.Column(db.String(5000),
+    description = db.Column(db.String(255),
                             nullable=True)
     event_id = db.Column(db.Integer,
                          db.ForeignKey('event.id'),
