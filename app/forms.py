@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, BooleanField, TimeField, read_only
+from wtforms import StringField, BooleanField, read_only
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length
 
@@ -19,9 +19,9 @@ class EventForm(Form):
     name = StringField('name', validators=[DataRequired(), Length(min=6)])
     description = StringField('description', validators=[DataRequired()])
     start_date = DateField('start date', validators=[DataRequired()])
-    start_time = TimeField('start time', validators=[DataRequired()])
+    #start_time = TimeField('start time', validators=[DataRequired()])
     end_date = DateField('end date', validators=[DataRequired()])
-    end_time = TimeField('end time', validators=[DataRequired()])
+    #end_time = TimeField('end time', validators=[DataRequired()])
     creation_date = DateField('creation date')
     creator = StringField('creator')
     status = StringField('status', validators=[DataRequired()])
