@@ -13,8 +13,7 @@ class User(UserMixin, db.Model, object):
     email = db.Column(db.String(64),
                       nullable=True)
     settings = db.relationship('Settings',
-                               backref='User',
-                               lazy='dynamic')
+                               backref='User')
 
     def __str__(self):
         return '<User %r>' % self.nickname
@@ -41,8 +40,7 @@ class Event(db.Model, object):
                            db.ForeignKey('user.id'),
                            nullable=False)
     creator = db.relationship('User',
-                              backref='CreatedEvents',
-                              lazy='dynamic')
+                              backref='CreatedEvents')
     status = db.Column(db.String(255),
                        nullable=False)  # TODO status jako enum
 
@@ -81,8 +79,7 @@ class TicketType(db.Model, object):
                          db.ForeignKey('event.id'),
                          nullable=False)
     event = db.relationship('Event',
-                            backref='TicketTypes',
-                            lazy='dynamic')
+                            backref='TicketTypes')
     cost = db.Column(db.Float,
                      nullable=False)
 
@@ -101,14 +98,12 @@ class Ticket(db.Model, object):
                         db.ForeignKey('user.id'),
                         nullable=False)
     user = db.relationship('User',
-                           backref='Tickets',
-                           lazy='dynamic')
+                           backref='Tickets')
     ticket_type_id = db.Column(db.Integer,
                                db.ForeignKey('ticket_type.id'),
                                nullable=False)
     ticket_type = db.relationship('TicketType',
-                                  backref='Tickets',
-                                  lazy='dynamic')
+                                  backref='Tickets')
     special_discount = db.Column(db.Float,
                                  nullable=True)
     creation_date = db.Column(db.Date,
