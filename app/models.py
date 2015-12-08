@@ -111,7 +111,7 @@ class Ticket(db.Model, object):
     payment_status_id = db.Column(db.Integer,
                                   db.ForeignKey('payment_status.id'),
                                   nullable=False)
-    payment_status = db.relationship('payment_status')
+    payment_status = db.relationship('PaymentStatus')
     payment_status_change = db.Column(db.Date)
 
     def set_from_dict_form(self, dict):
