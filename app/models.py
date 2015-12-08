@@ -109,7 +109,7 @@ class Ticket(db.Model, object):
     ticket_type = db.relationship('TicketType',
                                   backref='Tickets',
                                   lazy='dynamic')
-    special_discount = db.Column(db.Floatm,
+    special_discount = db.Column(db.Float,
                                  nullable=True)
     creation_date = db.Column(db.Date,
                               nullable=False)
