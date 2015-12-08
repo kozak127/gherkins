@@ -43,7 +43,7 @@ class Event(db.Model, object):
     creator = db.relationship('User',
                               backref='CreatedEvents',
                               lazy='dynamic')
-    status = db.Column(db.String,
+    status = db.Column(db.String(255),
                        nullable=False)  # TODO status jako enum
 
     def set_from_dict_form(self, dict):
