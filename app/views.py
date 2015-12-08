@@ -95,7 +95,7 @@ def events():
 @app.route('/event/list', methods=['GET', 'POST'])
 def event_list():
     events = Event.query.all()
-    return render_template('events/list.html', events=events)
+    return render_template('event/list.html', events=events)
 
 
 @app.route('/event/show/<id>')
