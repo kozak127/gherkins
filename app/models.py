@@ -114,9 +114,9 @@ class Ticket(db.Model, object):
     creation_date = db.Column(db.Date,
                               nullable=False)
     payment_status_id = db.Column(db.Integer,
-                                  db.ForeignKey('PaymentStatus.id'),
+                                  db.ForeignKey('payment_status.id'),
                                   nullable=False)
-    payment_status = db.relationship('PaymentStatus')
+    payment_status = db.relationship('payment_status')
     payment_status_change = db.Column(db.Date)
 
     def set_from_dict_form(self, dict):
@@ -140,6 +140,4 @@ class Settings(db.Model, object):
                         db.ForeignKey('user.id'))
 
     def set_from_dict_form(self, dict):
-        self.id = dict["id"]
-
         raise NotImplementedError('Not implemented!')
