@@ -11,7 +11,7 @@ class LoginForm(Form):
 
 class SettingsForm(Form):
 
-    def set_from_dict(self, dict):
+    def set_from_dict_model(self, dict):
         raise NotImplementedError('Not implemented!')
 
 
@@ -31,5 +31,11 @@ class EventForm(Form):
         read_only(self.creator)
         read_only(self.creation_date)
 
-    def set_from_dict(self, dict):
-        raise NotImplementedError('Not implemented!')
+    def set_from_dict_model(self, dict):
+        self.name = dict["name"]
+        self.description = dict["description"]
+        self.start_date = dict["start_date"]
+        self.end_date = dict["end_date"]
+        self.creation_date = dict["creation_date"]
+        self.creator = dict["creator"]
+        self.status = dict["status"]
