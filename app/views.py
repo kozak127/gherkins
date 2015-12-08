@@ -110,7 +110,7 @@ def event_show(id):
         return redirect(url_for('event_list'))
 
 
-@app.route('event/create')
+@app.route('/event/create')
 def event_create():
     return event_edit(None)
 
