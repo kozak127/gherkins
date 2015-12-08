@@ -76,14 +76,14 @@ def settings():
     if form.validate_on_submit():
         if settings_instance is None:
             settings_instance = Settings()
-        settings_instance.set_from_dict(form.__dict__)
+        settings_instance.set_from_dict_form(form.__dict__)
         settings_instance.User = g.user
         db.session.add(settings_instance)
         db.session.commit()
         flash('Settings saved')
         return redirect(url_for('index'))
     if settings_instance is not None:
-        form.set_from_dict(settings_instance.__dict__)
+        form.set_from_dict_model(settings_instance.__dict__)
     return render_template('settings.html', form=form)
 
 
@@ -101,8 +101,9 @@ def event_list():
 @app.route('/event/show/<id>')
 def event_show(id):
     if id is not None:
-        event_instance = Event.query.filter_by(id=id, status != 'deleted').first()
-        form = set_from_dict(event_instance.__dict__)
+        form = EventForm()
+        event_instance = Event.query.filter_by(id=id).first()
+        form.set_from_dict_model(event_instance.__dict__)
         return render_template('event/show.html', form=form)
     else:
         flash('Unable to find event')
@@ -121,7 +122,7 @@ def event_edit(id):
     if id is not None:
         event_instance = Event.query.filter_by(id=id).first()
     if form.validate_on_submit():
-        event_instance.set_from_dict(form.__dict__)
+        event_instance.set_from_dict_form(form.__dict__)
         if id is None:
             event_instance.creator = g.user
         db.session.add(event_instance)
@@ -129,7 +130,7 @@ def event_edit(id):
         flash('Event saved')
         return redirect(url_for('event_list'))
     if event_instance is not None:
-        form.set_from_dict(event_instance.__dict__)
+        form.set_from_dict_model(event_instance.__dict__)
     render_template('event/edit.html', form=form)
 
 
